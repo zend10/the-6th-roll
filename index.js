@@ -5,7 +5,7 @@ const updates = require('./command/updates.js')
 const help = require('./command/help.js')
 
 const client = new discord.Client()
-const prefix = '6.'
+const prefix = '6t/'
 
 const cmd = {
     UPDATES: 'updates',
