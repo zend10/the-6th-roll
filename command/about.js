@@ -4,7 +4,7 @@ let fs = require('fs')
 let aboutPath = path.resolve('save', 'about.sav')
 let methods = {}
 
-methods.showAbout = function(msg, link) {
+methods.showAbout = function(msg) {
     if (!fs.existsSync(aboutPath)) {
         fs.writeFileSync(aboutPath, '')
     }

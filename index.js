@@ -68,16 +68,16 @@ function checkCommand(client, msg) {
             manga.showMangaInfo(embed, msg)
             break
 
-        case cmd.MIKUSAD:
-            images.showMikuSad(msg)
-            break
-
         case cmd.PLSHUG:
             images.showPlsHug(msg)
             break
 
+        case cmd.HUGMIKU:
+            images.showHugMiku(msg)
+            break
+
         case cmd.ABOUT:
-            about.showAbout(msg, process.env.GITHUB_LINK)
+            about.showAbout(msg)
             break
 
         default:
