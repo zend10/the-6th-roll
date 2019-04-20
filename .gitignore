@@ -60,4 +60,7 @@ typings/
 # next.js build output
 .next
 
-save/
+save/latestChapter.json
+save/latestAnimeNews.json
+save/latestMangaNews.json
+save/subscribedChannels.sav
