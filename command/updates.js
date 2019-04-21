@@ -80,6 +80,7 @@ function doScraping() {
 
    let mangaChapterOptions = {
         method: 'GET',
+        headers: { 'Cookie': process.env.COOKIE, 'User-Agent': process.env.USER_AGENT },
         url: 'https://mangadex.org/title/20679/5toubun-no-hanayome'
     }
 
@@ -101,7 +102,7 @@ function doScraping() {
             handleMangaChapterResult(latestChapter)
         })
         .catch(function(err) {
-            console.log(err.message)
+            console.log(err)
         })
 
     let mangaNewsOptions = {
@@ -123,7 +124,7 @@ function doScraping() {
             })
         })
         .catch(function(err) {
-            console.log(err.message)
+            console.log(err)
         })
 
     let animeNewsOptions = {
@@ -153,7 +154,7 @@ function doScraping() {
             })
         })
         .catch(function(err) {
-            console.log(err.message)
+            console.log(err)
         })
 }
 
@@ -190,7 +191,7 @@ function handleMangaChapterResult(latestChapter) {
                         '\nRead Chapter ' + latestChapter.chapter +' here: ' + 
                         'https://mangadex.org/chapter/' + latestChapter.id + '/1')
                 } catch (ex) {
-                    console.log(ex.message)
+                    console.log(ex)
                 }
             })
 
@@ -220,7 +221,7 @@ function handleMangaNewsResult(latestNews) {
                     subscribedChannel.send('A wild news of the best manga in the world appears!\n' + 
                         'Read here: https://www.animenewsnetwork.com' + latestNews.link)
                 } catch (ex) {
-                    console.log(ex.message)
+                    console.log(ex)
                 }
             })
 
@@ -250,7 +251,7 @@ function handleAnimeNewsResult(latestNews) {
                     subscribedChannel.send('A wild anime news of the best manga in the world appears!\n' + 
                         'Read here: https://www.animenewsnetwork.com' + latestNews.link)
                 } catch (ex) {
-                    console.log(ex.message)
+                    console.log(ex)
                 }
             })
 
