@@ -17,7 +17,7 @@ let latestMangaNewsPath = path.resolve('save', 'latestMangaNews.json')
 let latestAnimeNewsPath = path.resolve('save', 'latestAnimeNews.json')
 let subscribedChannelsPath = path.resolve('save', 'subscribedChannels.sav')
 
-let mangadexApiUrl = 'https://mangadex.org/api/manga/20679'
+// let mangadexApiUrl = 'https://mangadex.org/api/manga/20679'
 let annMangaUrl = 'https://www.animenewsnetwork.com/encyclopedia/manga.php?id=21269'
 let annAnimeUrl = 'https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21514'
 
@@ -68,6 +68,7 @@ methods.rerunCron = function(client, msg) {
 }
 
 function doScraping() {
+    /*
     fetch(mangadexApiUrl, {
             method: 'POST',
             headers: { 'Cookie': process.env.COOKIE, 'User-Agent': process.env.USER_AGENT }
@@ -75,6 +76,33 @@ function doScraping() {
         .then(res => res.json())
         .then(json => handleMangaChapterJson(json))
         .catch(error => console.log(error))
+    */
+
+   let mangaChapterOptions = {
+        method: 'GET',
+        url: 'https://mangadex.org/title/20679/5toubun-no-hanayome'
+    }
+
+    cloudscraper(mangaChapterOptions)
+        .then(function(html) {
+            let items = []
+
+            $('div[data-lang=1]', html).each(function(i, elem) {
+                items[i] = $(this).data()
+            })
+
+            let latestChapter = 0
+            items.forEach(function(item) {
+                if (item.chapter > latestChapter) {
+                    latestChapter = item
+                }
+            })
+
+            handleMangaChapterResult(latestChapter)
+        })
+        .catch(function(err) {
+            console.log(err.message)
+        })
 
     let mangaNewsOptions = {
         method: 'GET',
@@ -129,6 +157,7 @@ function doScraping() {
         })
 }
 
+/*
 function handleMangaChapterJson(json) {
     let chapters = json.chapter
     let latestChapter = { 'chapter': 0 }
@@ -144,6 +173,7 @@ function handleMangaChapterJson(json) {
 
     handleMangaChapterResult(latestChapter)
 }
+*/
 
 function handleMangaChapterResult(latestChapter) {
     if (fs.existsSync(latestChapterPath)) {
