@@ -1,18 +1,21 @@
+require('dotenv').config()
+
 const cloudscraper = require('cloudscraper')
 const $ = require('cheerio')
 const fs = require('fs')
 const fetch = require('node-fetch')
+let path = require('path')
 
 let CronJob = require('cron').CronJob
 let methods = {}
 let botClient = null
 
-let cron = new CronJob('*/30 * * * *', doScraping, null, false, 'UTC')
+let cron = new CronJob('*/20 * * * *', doScraping, null, false, 'UTC')
 
-let latestChapterPath = './save/latestChapter.json'
-let latestMangaNewsPath = './save/latestMangaNews.json'
-let latestAnimeNewsPath = './save/latestAnimeNews.json'
-let subscribedChannelsPath = './save/subscribedChannels.sav'
+let latestChapterPath = path.resolve('save', 'latestChapter.json')
+let latestMangaNewsPath = path.resolve('save', 'latestMangaNews.json')
+let latestAnimeNewsPath = path.resolve('save', 'latestAnimeNews.json')
+let subscribedChannelsPath = path.resolve('save', 'subscribedChannels.sav')
 
 let mangadexApiUrl = 'https://mangadex.org/api/manga/20679'
 let annMangaUrl = 'https://www.animenewsnetwork.com/encyclopedia/manga.php?id=21269'
@@ -65,7 +68,10 @@ methods.rerunCron = function(client, msg) {
 }
 
 function doScraping() {
-    fetch(mangadexApiUrl)
+    fetch(mangadexApiUrl, {
+            method: 'POST',
+            headers: { 'Cookie': process.env.COOKIE, 'User-Agent': process.env.USER_AGENT }
+        })
         .then(res => res.json())
         .then(json => handleMangaChapterJson(json))
         .catch(error => console.log(error))
