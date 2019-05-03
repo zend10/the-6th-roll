@@ -21,7 +21,6 @@ let images = requireFile('images.js')
 let about = requireFile('about.js')
 
 let client = new discord.Client()
-let embed = new discord.RichEmbed()
 
 const PREFIX = '6t-'
 
@@ -31,7 +30,7 @@ const cmd = {
     RERUN: 'rerun',
     ANIME: 'anime',
     MANGA: 'manga',
-    PLSHUG: 'plshug',
+    MIKUSAY: 'mikusay',
     ABOUT: 'about'
 }
 
@@ -75,15 +74,15 @@ function checkCommand(client, msg) {
             break
 
         case cmd.ANIME:
-            anime.showAnimeInfo(embed, msg)
+            anime.showAnimeInfo(msg)
             break
 
         case cmd.MANGA:
-            manga.showMangaInfo(embed, msg)
+            manga.showMangaInfo(msg)
             break
 
-        case cmd.PLSHUG:
-            images.showPlsHug(msg)
+        case cmd.MIKUSAY:
+            images.mikuSay(msg)
             break
 
         case cmd.ABOUT:
@@ -91,7 +90,12 @@ function checkCommand(client, msg) {
             break
 
         default:
-            msg.channel.send('No such command!')
+            if (msg.content.substring(PREFIX.length).startsWith(cmd.MIKUSAY)) {
+                images.mikuSay(msg)
+            } else {
+                msg.channel.send('No such command!')
+            }
+
     }
 }
 
