@@ -5,7 +5,6 @@ let Jimp = require('jimp')
 let methods = {}
 
 let mikusayImg = path.resolve('res', 'mikusay.jpg')
-let destImg = path.resolve('res', 'mikusaycopy.jpg')
 let chihayaFont = path.resolve('res', 'chihaya.fnt')
 
 const LETTER_PER_LINE = 10
@@ -19,6 +18,18 @@ const CANVAS_X = 170
 const CANVAS_Y = 650
 
 let lastProcessTime
+
+let destImg = path.resolve('res', 'mikusaycopy.jpg')
+
+let claimHugImg = path.resolve('res', 'claimhug.jpg')
+let destHugImg = path.resolve('res', 'claimhugcopy.jpg')
+
+const HUG_CANVAS_WIDTHPERCHAR = 70
+const HUG_CANVAS_HEIGHT = 180
+const HUG_CANVAS_X = 0
+const HUG_CANVAS_Y = 300
+
+let lastHugTime
 
 methods.mikuSay = function(msg) {
     if (lastProcessTime != null && new Date().getTime() - lastProcessTime.getTime() < 3000) {
@@ -82,6 +93,60 @@ methods.mikuSay = function(msg) {
                 files: [{
                     attachment: destImg,
                     name: 'mikusaycopy.jpg'
+                }]
+            })
+            .then(() => {
+                msg.channel.stopTyping()
+            })
+            .catch(err => {
+                msg.channel.stopTyping()
+                msg.channel.send('Miku doesn\'t understand what\'s wrong.')
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            msg.channel.stopTyping()
+            msg.channel.send('Miku doesn\'t understand what\'s wrong.')
+            console.log(err)
+        })
+}
+
+methods.claimHug = function(msg) {
+    if (lastHugTime != null && new Date().getTime() - lastHugTime.getTime() < 15000) {
+        msg.channel.send('Please don\'t rush Miku. Miku is the slowest of the quints.')
+        lastHugTime = new Date()
+        return
+    }
+    
+    lastHugTime = new Date()
+
+    msg.channel.startTyping()
+    Jimp.read(claimHugImg)
+        .then(miku => (
+            Jimp.loadFont(Jimp.FONT_SANS_128_WHITE).then(font => ([miku, font]))
+        ))
+        .then(async function(data) {
+            miku = data[0]
+            font = data[1]
+
+            let fontCanvas = await Jimp.create(msg.author.username.length * HUG_CANVAS_WIDTHPERCHAR, 
+                HUG_CANVAS_HEIGHT, 'black')
+            fontCanvas.print(font, 0, 0, {
+                text: msg.author.username,
+                alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
+            }, msg.author.username.length * HUG_CANVAS_WIDTHPERCHAR, HUG_CANVAS_HEIGHT)
+
+            return miku.blit(fontCanvas, HUG_CANVAS_X, HUG_CANVAS_Y)
+        })
+        .then(async function(miku) {
+            await miku.quality(100).write(destHugImg)
+        })
+        .then(() => {
+            msg.channel.send({
+                files: [{
+                    attachment: destHugImg,
+                    name: 'claimhugcopy.jpg'
                 }]
             })
             .then(() => {

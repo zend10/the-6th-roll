@@ -18,7 +18,8 @@
         "jimp": "^0.6.4",
         "node-fetch": "^2.4.1",
         "request": "^2.88.0",
-        "request-promise": "^4.2.4"
+        "request-promise": "^4.2.4",
+        "sentiment": "^5.0.1"
     },
     "devDependencies": {
         "nodemon": "^1.18.11"

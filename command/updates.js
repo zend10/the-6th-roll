@@ -8,7 +8,7 @@ let methods = {}
 let botClient = null
 let firebase = null
 
-let cron = new CronJob('*/20 * * * *', doScraping, null, false, 'UTC')
+let cron = new CronJob('*/15 * * * *', doScraping, null, false, 'UTC')
 
 const MANGADEX_URL = 'https://mangadex.org/title/20679/5toubun-no-hanayome'
 const ANNMANGA_URL = 'https://www.animenewsnetwork.com/encyclopedia/manga.php?id=21269'
@@ -81,7 +81,7 @@ function doScraping() {
             handleMangaChapterResult(latestChapter)
         })
         .catch(function(err) {
-            console.log(err)
+            sendLog(err)
         })
     
     let mangaNewsOptions = {
@@ -106,7 +106,7 @@ function doScraping() {
             handleMangaNewsResult(items)
         })
         .catch(function(err) {
-            console.log(err)
+            sendLog(err)
         })
 
     let animeNewsOptions = {
@@ -131,7 +131,7 @@ function doScraping() {
             handleAnimeNewsResult(items)
         })
         .catch(function(err) {
-            console.log(err)
+            sendLog(err)
         })    
 }
 
@@ -148,7 +148,7 @@ function handleMangaChapterResult(latestChapter) {
                 timestamp: latestChapter.timestamp,
                 mangaId: latestChapter.mangaId
             })
-            console.log('New chapter: Chapter ' + latestChapter.chapter)
+            sendLog('New chapter: Chapter ' + latestChapter.chapter)
             
             firebase.database().ref(DB_SERVER).once('value').then(function(snapshot) {
                 let result = snapshot.val()
@@ -159,17 +159,17 @@ function handleMangaChapterResult(latestChapter) {
                             '\nRead Chapter ' + latestChapter.chapter +' here: ' + 
                             'https://mangadex.org/chapter/' + latestChapter.id + '/1')
                     } catch (ex) {
-                        console.log(ex)
+                        sendLog(ex)
                     }
                 }
             }).catch(function(err) {
-                console.log(err)
+                sendLog(err)
             })
         } else {
-            console.log('Still chapter ' + latestChapter.chapter)
+            sendLog('Still chapter ' + latestChapter.chapter)
         }
     }).catch(function(err) {
-        console.log(err)
+        sendLog(err)
     })
 }
 
@@ -181,7 +181,7 @@ function handleMangaNewsResult(latestNews) {
                     link: item.link,
                     title: item.title
                 })
-                console.log('New manga news: ' + item.title)
+                sendLog('New manga news: ' + item.title)
 
                 firebase.database().ref(DB_SERVER).once('value').then(function(snapshot) {
                     let result = snapshot.val()
@@ -191,17 +191,17 @@ function handleMangaNewsResult(latestNews) {
                             subscribedChannel.send('A wild news of the best manga in the world is out!' + 
                                 '\nRead here: https://www.animenewsnetwork.com' + item.link)
                         } catch (ex) {
-                            console.log(ex)
+                            sendLog(ex)
                         }
                     }
                 }).catch(function(err) {
-                    console.log(err)
+                    sendLog(err)
                 })
             } else {
-                console.log('Same old news')
+                sendLog('Same old news')
             }
         }).catch(function(err) {
-            console.log(err)
+            sendLog(err)
         })
     })
 }
@@ -214,7 +214,7 @@ function handleAnimeNewsResult(latestNews) {
                     link: item.link,
                     title: item.title
                 })
-                console.log('New anime news: ' + item.title)
+                sendLog('New anime news: ' + item.title)
 
                 firebase.database().ref(DB_SERVER).once('value').then(function(snapshot) {
                     let result = snapshot.val()
@@ -224,19 +224,24 @@ function handleAnimeNewsResult(latestNews) {
                             subscribedChannel.send('A wild anime news of the best manga in the world is out!' + 
                                 '\nRead here: https://www.animenewsnetwork.com' + item.link)
                         } catch (ex) {
-                            console.log(ex)
+                            sendLog(ex)
                         }
                     }
                 }).catch(function(err) {
-                    console.log(err)
+                    sendLog(err)
                 })
             } else {
-                console.log('Same old anime news')
+                sendLog('Same old anime news')
             }
         }).catch(function(err) {
-            console.log(err)
+            sendLog(err)
         })
     })
+}
+
+function sendLog(content) {
+    console.log(content)
+    botClient.channels.get(process.env.LOG_CHANNEL).send(content)
 }
 
 module.exports = methods

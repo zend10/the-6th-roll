@@ -15,8 +15,10 @@ let firebaseConfig = {
 
 let discord = require('discord.js')
 let updates = requireFile('updates.js')
+let reaction = requireFile('reaction.js')
 let anime = requireFile('anime.js')
 let manga = requireFile('manga.js')
+let link = requireFile('link.js')
 let images = requireFile('images.js')
 let about = requireFile('about.js')
 
@@ -30,9 +32,15 @@ const cmd = {
     RERUN: 'rerun',
     ANIME: 'anime',
     MANGA: 'manga',
+    LINK: 'link',
     MIKUSAY: 'mikusay',
+    CLAIMHUG: 'claimhug',
     ABOUT: 'about'
 }
+
+const alias = ['gotoubun', '5toubun', '5-toubun', 'go-toubun', 
+    'quintessential', 'quintuplets', 'quint', 'quints', 
+    '五等分の花嫁', 'cinnamon']
 
 firebase.initializeApp(firebaseConfig)
 
@@ -49,6 +57,14 @@ client.on('ready', () => {
 client.on('message', msg => {
     if (msg.content.startsWith(PREFIX)) {
         checkCommand(client, msg)
+    }
+
+    if (msg.author.id != process.env.BOT_ID) {
+        alias.forEach(function(item) {
+            if (msg.content.toLowerCase().includes(item)) {
+                reaction.showReaction(msg)
+            }
+        })
     }
 })
 
@@ -81,8 +97,12 @@ function checkCommand(client, msg) {
             manga.showMangaInfo(msg)
             break
 
-        case cmd.MIKUSAY:
-            images.mikuSay(msg)
+        case cmd.LINK:
+            link.showLink(msg)
+            break
+
+        case cmd.CLAIMHUG:
+            images.claimHug(msg)
             break
 
         case cmd.ABOUT:

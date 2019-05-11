@@ -7,8 +7,5 @@ Discord bot to spread [Gotoubun no Hanayome](https://myanimelist.net/manga/10385
 - That's it.
 
 ## Planned Features
-- Get news from the [official website](http://www.tbs.co.jp/anime/5hanayome/news/).
-- Show the [manga sales](https://5hanayome.fandom.com/wiki/5Toubun_no_Hanayome_Sales).
-- Archive the news.
-- Do something with the glorious fanart.
+- Scrape news from the [official website](http://www.tbs.co.jp/anime/5hanayome/news/) and more news source.
 - More reaction images.
