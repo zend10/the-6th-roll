@@ -132,7 +132,9 @@ function doScraping() {
         })
         .catch(function(err) {
             sendLog(err)
-        })    
+        })  
+
+    cron.start()
 }
 
 function handleMangaChapterResult(latestChapter) {

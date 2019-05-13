@@ -9,7 +9,7 @@ methods.showReaction = function(msg) {
     let result = sentiment.analyze(msg.content)
 
     if (result.score > 0) {
-        msg.channel.send('Love ya!')
+        msg.channel.send('(¬‿¬)')
     } else if (result.score < 0) {
         msg.channel.startTyping()
         msg.channel.send({
@@ -26,6 +26,10 @@ methods.showReaction = function(msg) {
             console.log(err)
         })
     }
+}
+
+methods.sayNinoGang = function(msg) {
+    msg.channel.send('Nino Gang!')
 }
 
 module.exports = methods

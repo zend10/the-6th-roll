@@ -60,6 +60,10 @@ client.on('message', msg => {
     }
 
     if (msg.author.id != process.env.BOT_ID) {
+        if (msg.content.toLowerCase().includes('nino')) {
+            reaction.sayNinoGang(msg)
+        }
+
         alias.forEach(function(item) {
             if (msg.content.toLowerCase().includes(item)) {
                 reaction.showReaction(msg)
