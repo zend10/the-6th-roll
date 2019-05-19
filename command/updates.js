@@ -3,12 +3,16 @@ require('dotenv').config()
 let cloudscraper = require('cloudscraper')
 let $ = require('cheerio')
 
-let CronJob = require('cron').CronJob
+// let CronJob = require('cron').CronJob
 let methods = {}
 let botClient = null
 let firebase = null
 
-let cron = new CronJob('*/15 * * * *', doScraping, null, false, 'UTC')
+// let cron = new CronJob('*/15 * * * * *', doScraping, null, false, 'UTC')
+let cron = require('node-cron')
+let task = cron.schedule('*/15 * * * *', () => {
+    doScraping()
+})
 
 const MANGADEX_URL = 'https://mangadex.org/title/20679/5toubun-no-hanayome'
 const ANNMANGA_URL = 'https://www.animenewsnetwork.com/encyclopedia/manga.php?id=21269'
@@ -36,7 +40,8 @@ methods.registerChannel = function(client, msg, fb) {
         }
     })
 
-    cron.start()
+    // cron.start()
+    task.start()
 }
 
 methods.unregisterChannel = function(client, msg, fb) {
@@ -53,7 +58,8 @@ methods.rerunCron = function(client, msg, fb) {
     firebase = fb
 
     msg.channel.send('I\'m up and running!')
-    cron.start()
+    // cron.start()
+    task.start()
 }
 
 function doScraping() {
@@ -134,13 +140,13 @@ function doScraping() {
             sendLog(err)
         })  
 
-    cron.start()
+    // cron.start()
 }
 
 function handleMangaChapterResult(latestChapter) {
-    firebase.database().ref(DB_MANGA + latestChapter.id).once('value').then(function(snapshot) {
+    firebase.database().ref(DB_MANGA + latestChapter.chapter).once('value').then(function(snapshot) {
         if (!snapshot.val()) {
-            firebase.database().ref(DB_MANGA + latestChapter.id).set({
+            firebase.database().ref(DB_MANGA + latestChapter.chapter).set({
                 title: latestChapter.title,
                 chapter: latestChapter.chapter,
                 volume: latestChapter.volume,
@@ -148,7 +154,8 @@ function handleMangaChapterResult(latestChapter) {
                 group: latestChapter.group,
                 uploader: latestChapter.uploader,
                 timestamp: latestChapter.timestamp,
-                mangaId: latestChapter.mangaId
+                mangaId: latestChapter.mangaId,
+                id: latestChapter.id
             })
             sendLog('New chapter: Chapter ' + latestChapter.chapter)
             
