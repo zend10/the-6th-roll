@@ -3,16 +3,12 @@ require('dotenv').config()
 let cloudscraper = require('cloudscraper')
 let $ = require('cheerio')
 
-// let CronJob = require('cron').CronJob
+let CronJob = require('cron').CronJob
 let methods = {}
 let botClient = null
 let firebase = null
 
-// let cron = new CronJob('*/15 * * * * *', doScraping, null, false, 'UTC')
-let cron = require('node-cron')
-let task = cron.schedule('*/15 * * * *', () => {
-    doScraping()
-})
+let cron = new CronJob('*/15 * * * * *', doScraping, null, false, 'UTC')
 
 const MANGADEX_URL = 'https://mangadex.org/title/20679/5toubun-no-hanayome'
 const ANNMANGA_URL = 'https://www.animenewsnetwork.com/encyclopedia/manga.php?id=21269'
@@ -40,8 +36,7 @@ methods.registerChannel = function(client, msg, fb) {
         }
     })
 
-    // cron.start()
-    task.start()
+    cron.start()
 }
 
 methods.unregisterChannel = function(client, msg, fb) {
@@ -58,8 +53,7 @@ methods.rerunCron = function(client, msg, fb) {
     firebase = fb
 
     msg.channel.send('I\'m up and running!')
-    // cron.start()
-    task.start()
+    cron.start()
 }
 
 function doScraping() {
@@ -139,8 +133,6 @@ function doScraping() {
         .catch(function(err) {
             sendLog(err)
         })  
-
-    // cron.start()
 }
 
 function handleMangaChapterResult(latestChapter) {

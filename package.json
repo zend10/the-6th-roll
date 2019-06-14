@@ -16,8 +16,8 @@
         "dotenv": "^7.0.0",
         "firebase": "^5.10.1",
         "jimp": "^0.6.4",
-        "node-cron": "^2.0.3",
         "node-fetch": "^2.4.1",
+        "pm2": "^3.5.1",
         "request": "^2.88.0",
         "request-promise": "^4.2.4",
         "sentiment": "^5.0.1"
