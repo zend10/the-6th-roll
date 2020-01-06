@@ -59,17 +59,17 @@ client.on('message', msg => {
         checkCommand(client, msg)
     }
 
-    if (msg.author.id != process.env.BOT_ID) {
-        if (msg.content.toLowerCase().includes('nino')) {
-            reaction.sayNinoGang(msg)
-        }
+    // if (msg.author.id != process.env.BOT_ID) {
+    //     if (msg.content.toLowerCase().includes('nino')) {
+    //         reaction.sayNinoGang(msg)
+    //     }
 
-        alias.forEach(function(item) {
-            if (msg.content.toLowerCase().includes(item)) {
-                reaction.showReaction(msg)
-            }
-        })
-    }
+    //     alias.forEach(function(item) {
+    //         if (msg.content.toLowerCase().includes(item)) {
+    //             reaction.showReaction(msg)
+    //         }
+    //     })
+    // }
 })
 
 function requireFile(filename) {
