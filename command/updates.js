@@ -10,7 +10,7 @@ let firebase = null
 
 let cron = new CronJob('*/5 * * * *', doScraping, null, false, 'UTC')
 
-const MANGADEX_URL = 'https://mangadex.cc/title/20679/5toubun-no-hanayome'
+const MANGADEX_URL = 'https://mangadex.org/title/20679/5toubun-no-hanayome'
 const ANNMANGA_URL = 'https://www.animenewsnetwork.com/encyclopedia/manga.php?id=21269'
 const ANNANIME_URL = 'https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21514'
 
@@ -158,7 +158,7 @@ function handleMangaChapterResult(latestChapter) {
                         let subscribedChannel = botClient.channels.get(result[key].channel_id)
                         subscribedChannel.send('New chapter of the best manga in the world is out!' + 
                             '\nRead Chapter ' + latestChapter.chapter +' here: ' + 
-                            'https://mangadex.cc/chapter/' + latestChapter.id + '/1')
+                            'https://mangadex.org/chapter/' + latestChapter.id + '/1')
                     } catch (ex) {
                         sendLog(ex)
                     }

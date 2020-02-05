@@ -2,11 +2,11 @@
     "name": "6th-rolls",
     "version": "1.0.0",
     "description": "Cinnamon Rolls Propaganda Machine",
-    "main": "index.js",
+    "main": "sixth.js",
     "author": "Zen",
     "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon index.js"
+        "start": "node sixth.js",
+        "dev": "nodemon sixth.js"
     },
     "dependencies": {
         "cheerio": "^1.0.0-rc.3",
