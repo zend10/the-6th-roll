@@ -136,7 +136,8 @@ function doScraping() {
 }
 
 function handleMangaChapterResult(latestChapter) {
-    firebase.database().ref(DB_MANGA + latestChapter.chapter).once('value').then(function(snapshot) {
+    let newKey = Number.isInteger(latestChapter.chapter) ? latestChapter.chapter : `Extra ${latestChapter.volume}`
+    firebase.database().ref(DB_MANGA + newKey).once('value').then(function(snapshot) {
         if (!snapshot.val()) {
             firebase.database().ref(DB_MANGA + latestChapter.chapter).set({
                 title: latestChapter.title,

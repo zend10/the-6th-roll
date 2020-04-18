@@ -6,6 +6,6 @@ Discord bot to spread [Gotoubun no Hanayome](https://myanimelist.net/manga/10385
 - Informing when there are news about Cinnamon Rolls.
 - That's it.
 
-## Planned Features
-- Scrape news from the [official website](http://www.tbs.co.jp/anime/5hanayome/news/) and more news source.
-- More reaction images.
+
+
+## Gotoubun no Hanayome has ended and therefore this bot is officially retired. It's been a good run.
