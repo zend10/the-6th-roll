@@ -139,7 +139,7 @@ function handleMangaChapterResult(latestChapter) {
     let newKey = Number.isInteger(latestChapter.chapter) ? latestChapter.chapter : `Extra ${latestChapter.volume}`
     firebase.database().ref(DB_MANGA + newKey).once('value').then(function(snapshot) {
         if (!snapshot.val()) {
-            firebase.database().ref(DB_MANGA + latestChapter.chapter).set({
+            firebase.database().ref(DB_MANGA + newKey).set({
                 title: latestChapter.title,
                 chapter: latestChapter.chapter,
                 volume: latestChapter.volume,
