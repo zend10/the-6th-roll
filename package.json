@@ -16,7 +16,7 @@
         "dotenv": "^8.2.0",
         "firebase": "^6.6.2",
         "jimp": "^0.14.0",
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^2.6.1",
         "pm2": "^3.5.2",
         "request": "^2.88.2",
         "request-promise": "^4.2.5",
